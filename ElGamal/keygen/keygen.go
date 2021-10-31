@@ -27,6 +27,7 @@ func KeyGenerate() (p int, g int, y int) {
 		os.Exit(3)
 	}
 	y = CalcPublicKeyY(p, g, x)
+	fmt.Println("public-key y is ", y)
 	return p, g, y
 }
 
