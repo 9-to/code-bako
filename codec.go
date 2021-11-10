@@ -8,6 +8,6 @@ import (
 func main() {
 	var a, x, N int
 	fmt.Scanf("%d %d %d", &a, &x, &N)
-	y, a := calc.SafePrime()
-	fmt.Println(y, a)
+	y := calc.Sqrt(a, x)
+	fmt.Println(y)
 }

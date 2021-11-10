@@ -10,9 +10,6 @@ func main() {
 	var m int
 	fmt.Println("write message, m")
 	fmt.Scanf("%d", &m)
-	c := keygen.MyModulo(m, e, N)
-	fmt.Println("cipher code is ", c)
-	mm := keygen.MyModulo(c, d, N)
-	fmt.Println("estimated message is ", mm)
-
+	c := keygen.EncoderRSAP(m, e, N)
+	keygen.DecoderRSAP(c, d, e, N)
 }

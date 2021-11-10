@@ -116,12 +116,11 @@ func MakePE(p int) (g []int) {
 	return g
 }
 
-func SafePrime() (p, g int) {
+func SafePrime() (p, q, g int) {
 	/*
 		安全な素数 p=2q+1 とその原始元を出力する
 	*/
 	check := 0
-	var q int
 	rand.Seed(time.Now().UnixNano())
 	for check != 1 {
 		q = rand.Intn(1000000)
@@ -144,5 +143,44 @@ func SafePrime() (p, g int) {
 			check2 = 1
 		}
 	}
-	return p, g
+	return p, q, g
+}
+
+func CheckQuad(a, p int) bool {
+	/*
+		平方剰余かどうかを確認する
+		p:法
+		a:=x^2 mod p
+
+	*/
+	a = a % p
+	if PrimeCheck(p, 1000) {
+		g := MakePE(p)
+		gg := g[0]
+		for i := 1; i < p; i++ {
+			if a == FastPower(gg, i, p) {
+				if i%2 == 0 {
+					return true
+				} else {
+					return false
+				}
+			}
+		}
+		return false
+	} else { //素数じゃない場合
+		//N-pq合成数
+	}
+	return false
+}
+
+func Legendre(a, p int) int {
+	/*
+		ルジャンドルの記号
+		(a/p)
+	*/
+	if CheckQuad(a, p) {
+		return 1
+	} else {
+		return -1
+	}
 }

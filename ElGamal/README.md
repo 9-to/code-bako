@@ -11,3 +11,11 @@ c_2c_1^{p-1-x}&\equiv my^r\times g^{r(p-1-x)}\equiv mg^{rx}\times g^{r(p-1)-rx}\
 ### 素数の選び方
 + pは離散対数問題が解けないくらい大きくなければいけない(pは1024bit以上)
 + p-1が小さな素数の積の場合、**Pohlig-Hellman**の方法で離散対数問題が解けてしまう
+
+### 楕円ElGamal暗号
+ElGamalECで実装（予定）。
+楕円曲線上の離散対数問題に依存する。
+
+
+### 拡張ElGamal暗号
+ElGamalExで実装。CCAに対して耐性がある。

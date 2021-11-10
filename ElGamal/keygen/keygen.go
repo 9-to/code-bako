@@ -1,9 +1,22 @@
 package keygen
 
 import (
+	calc "code-bako/sandbox"
 	"fmt"
+	"math/rand"
 	"os"
+	"time"
 )
+
+type pkEx struct {
+	/*
+		拡張ElGamal暗号の公開鍵
+	*/
+	p int
+	q int
+	a int
+	y int
+}
 
 func KeyGenerate() (p int, g int, y int) {
 	/*
@@ -29,6 +42,28 @@ func KeyGenerate() (p int, g int, y int) {
 	y = CalcPublicKeyY(p, g, x)
 	fmt.Println("public-key y is ", y)
 	return p, g, y
+}
+
+func KeyGenEx() (pk pkEx, x int) {
+	/*
+		拡張ElGamal暗号の鍵生成
+	*/
+	pk.p, pk.q, _ = calc.SafePrime()
+	rand.Seed(time.Now().UnixNano())
+	flag := false
+	var a int
+	for flag == false {
+		a = rand.Intn(pk.p-1) + 1
+		if calc.FastPower(a, pk.q, pk.p) == 1 {
+			flag = true
+		}
+	}
+	x = rand.Intn(pk.q)
+	pk.y = calc.FastPower(a, x, pk.p)
+	pk.a = a
+	fmt.Println("public-key is (", pk, ")")
+	fmt.Println("secret-key is ", x)
+	return pk, x
 }
 
 func CheckPrime(p int) int {

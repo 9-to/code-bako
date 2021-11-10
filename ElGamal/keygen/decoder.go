@@ -1,8 +1,11 @@
-package main
+package keygen
 
-import "fmt"
+import (
+	calc "code-bako/sandbox"
+	"fmt"
+)
 
-func main() {
+func DecoderElGamal() {
 	var c1, c2, x, p int
 	fmt.Println("write p")
 	fmt.Scanf("%d", &p)
@@ -16,4 +19,12 @@ func main() {
 	}
 	m = (m * c2) % p
 	fmt.Println("message is ", m)
+}
+
+func DecoderElGamalEx(c cipherC, pk pkEx, sk int) (m int) {
+	cUnder := calc.Inverse(calc.FastPower(c.c1, sk, pk.p), pk.p)
+	m = (c.c2 * cUnder) % pk.p
+	m = (pk.p + m) % pk.p
+	fmt.Println("Estimated-message is ", m)
+	return m
 }

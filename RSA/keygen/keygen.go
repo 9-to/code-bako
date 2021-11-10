@@ -18,12 +18,8 @@ func KeyGen() (N, e, d int) {
 		fmt.Scanf("%d", &e)
 		tmp, _, _ = ExtGCD((p-1)*(q-1), e)
 	}
-	for i := 0; i < (p-1)*(q-1); i++ {
-		tmp, _, _ = ExtGCD((p-1)*(q-1), e*i)
-		if tmp == 1 {
-			d = i
-		}
-	}
+	_, _, d = ExtGCD((p-1)*(q-1), e)
+	d = (((p - 1) * (q - 1)) + d) % ((p - 1) * (q - 1))
 	fmt.Println("secret-key d is ", d)
 	return N, e, d
 }

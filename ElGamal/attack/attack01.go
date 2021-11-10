@@ -15,7 +15,7 @@ func main() {
 	fmt.Scanf("%d %d", &c1, &c2)
 	fmt.Println("write p")
 	fmt.Scanf("%d", &p)
-	m1m2 := (c1 / c2) % p //ここ逆元の計算間違ってそう
+	m1m2 := (c1 / c2) % p //ここ逆元の計算間違ってる
 	fmt.Println("write m2")
 	fmt.Scanf("%d", &m2)
 	fmt.Println("m1 = ", (m1m2*m2)%p)
