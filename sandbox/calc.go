@@ -52,7 +52,6 @@ func PrimeCheck(n, t int) bool {
 	}
 	//fmt.Println(s, r)
 	rand.Seed(time.Now().UnixNano())
-	//var y []int
 	y := make([]int, s, s)
 	for i := 0; i < s; i++ {
 		y[i] = 0
@@ -114,6 +113,21 @@ func MakePE(p int) (g []int) {
 	}
 	g = gg //[rand.Intn(len(gg))]
 	return g
+}
+
+func MakePrime() (p int) {
+	/*
+		素数を生成する
+	*/
+	check := 0
+	rand.Seed(time.Now().UnixNano())
+	for check != 1 {
+		p = rand.Intn(1000)
+		if PrimeCheck(p, 1000) {
+			check = 1
+		}
+	}
+	return p
 }
 
 func SafePrime() (p, q, g int) {
@@ -183,4 +197,26 @@ func Legendre(a, p int) int {
 	} else {
 		return -1
 	}
+}
+
+func MakeQ() (p, q, a int) {
+	/*
+		大きな素数p、位数が大きな素数qとなるZ_p^*の要素g
+	*/
+	check := 0
+	var R int
+	rand.Seed(time.Now().UnixNano())
+	for check != 1 {
+		q = rand.Intn(1000)
+		if PrimeCheck(q, 10000) {
+			R = rand.Intn(100)
+			p = q*2*R + 1
+			if PrimeCheck(p, 10000) {
+				check = 1
+			}
+		}
+	}
+	g := MakePE(p)
+	a = FastPower(g[0], 2*R, p)
+	return p, q, a
 }

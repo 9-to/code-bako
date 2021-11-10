@@ -1,13 +1,7 @@
 package main
 
-import (
-	calc "code-bako/sandbox"
-	"fmt"
-)
+import zeroknow "code-bako/ZeroKnowledge"
 
 func main() {
-	var a, x, N int
-	fmt.Scanf("%d %d %d", &a, &x, &N)
-	y := calc.Sqrt(a, x)
-	fmt.Println(y)
+	zeroknow.GQAP()
 }

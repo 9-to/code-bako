@@ -24,7 +24,7 @@ func Inverse(p, N int) int {
 		pの逆元を出力する
 	*/
 	_, a, _ := ExtGCD(p, N)
-	return a
+	return (N + a) % N
 }
 
 func Sqrt(xx, N int) (out []int) {
