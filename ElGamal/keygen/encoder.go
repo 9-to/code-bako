@@ -13,6 +13,14 @@ type cipherC struct {
 	c2 int
 }
 
+type CipherEC struct {
+	/*
+		楕円ElGamal暗号
+	*/
+	C1 calc.PP
+	C2 calc.PP
+}
+
 func main() {
 	var p, g, y int
 	p, g, y = KeyGenerate()
@@ -41,6 +49,19 @@ func EncoderElGamalEx(pk pkEx, m int) (c cipherC) {
 	c.c1 = calc.FastPower(pk.a, r, pk.p)
 	c.c2 = (calc.FastPower(pk.y, r, pk.p) * m) % pk.p
 	fmt.Println("cipher-code is", c)
+	return c
+}
+
+func EncoderElGamalEC(pk PkEC, M calc.PP) (c CipherEC) {
+	/*
+		楕円ElGamal暗号の符号化
+	*/
+	var r int
+	fmt.Println("write r")
+	fmt.Scanf("%d", &r)
+	c.C1 = calc.EQTimes(pk.Pg, r, pk.F)
+	tmp := calc.EQTimes(pk.Py, r, pk.F)
+	c.C2.X, c.C2.Y = (M.X+tmp.X)%pk.F.Prime, (M.Y+tmp.Y)%pk.F.Prime
 	return c
 }
 

@@ -28,3 +28,9 @@ func DecoderElGamalEx(c cipherC, pk pkEx, sk int) (m int) {
 	fmt.Println("Estimated-message is ", m)
 	return m
 }
+
+func DecoderElGamalEC(c CipherEC, pk PkEC, sk int) (m calc.PP) {
+	xC1 := calc.EQTimes(c.C1, sk, pk.F)
+	m.X, m.Y = (pk.F.Prime+c.C2.X-xC1.X)%pk.F.Prime, (pk.F.Prime+c.C2.Y-xC1.Y)%pk.F.Prime
+	return m
+}

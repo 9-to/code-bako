@@ -18,6 +18,15 @@ type pkEx struct {
 	y int
 }
 
+type PkEC struct {
+	/*
+		楕円ElGamal暗号の公開鍵
+	*/
+	F  calc.EQ
+	Pg calc.PP
+	Py calc.PP
+}
+
 func KeyGenerate() (p int, g int, y int) {
 	/*
 		鍵生成
@@ -27,7 +36,9 @@ func KeyGenerate() (p int, g int, y int) {
 	//var p int
 	//var g int
 	fmt.Scanf("%d %d", &p, &g)
-	CheckPrime(p)
+	if !calc.PrimeCheck(p, 1000) {
+		os.Exit(0)
+	}
 	if g <= 0 || p <= g {
 		fmt.Println("gの数が不適正です")
 		os.Exit(2)
@@ -66,15 +77,32 @@ func KeyGenEx() (pk pkEx, x int) {
 	return pk, x
 }
 
-func CheckPrime(p int) int {
+func KeygenEC() (pk PkEC, sk int) {
 	/*
-		素数を判定する
+		楕円ElGamal暗号の鍵生成
+		///
+		p:大きな素数
+		f:GF(p)上の楕円曲線E(Fp)
+		Pg:E(Fp)有理点=生成元
+		q:Pgの位数
 	*/
-	if p%2 == 0 { //とりあえず2で割り切れる
-		fmt.Println("pが素数ではありません")
-		os.Exit(1)
+	var p, a, b int
+	rand.Seed(time.Now().UnixNano())
+	fmt.Println("write p")
+	fmt.Scanf("%d", &p)
+	if !calc.PrimeCheck(p, 1000) {
+		os.Exit(0)
 	}
-	return 0
+	fmt.Println("write elliptic curve... f= x^3+ax+b\n (a,b) is ?")
+	fmt.Scanf("%d %d", &a, &b)
+	pk.F.A, pk.F.B, pk.F.Prime = a, b, p
+	fmt.Println("Generator Pg is ... (x,y)")
+	fmt.Scanf("%d %d", &pk.Pg.X, &pk.Pg.Y)
+	pk.Pg.O = false
+	fmt.Println("secret-key is ...")
+	fmt.Scanf("%d", &sk)
+	pk.Py = calc.EQTimes(pk.Pg, sk, pk.F)
+	return pk, sk
 }
 
 func CalcPublicKeyY(p, g, x int) int {

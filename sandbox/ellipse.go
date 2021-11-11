@@ -12,10 +12,11 @@ type PP struct {
 type EQ struct {
 	/*
 		楕円曲線の標準形
-		E; f(x)=x^3+ax+b
+		E; f(x)=x^3+ax+b (mod p)
 	*/
-	A int
-	B int
+	A     int
+	B     int
+	Prime int
 }
 
 func EQAdd(a PP, b PP, f EQ, p int) PP {
@@ -43,5 +44,23 @@ func EQAdd(a PP, b PP, f EQ, p int) PP {
 	}
 	out.X = (10*p + (lambda*lambda - a.X - b.X)) % p
 	out.Y = (10*p + (lambda*(a.X-out.X) - a.Y)) % p
+	return out
+}
+
+func EQTimes(a PP, x int, f EQ) (out PP) {
+	/*
+		楕円加算における乗算
+	*/
+	out = a
+	for i := 0; i < x-1; i++ {
+		out = EQAdd(a, out, f, f.Prime)
+	}
+	return out
+}
+
+func CalcDisL() (out int) {
+	/*
+		Pの離散対数を求める
+	*/
 	return out
 }
